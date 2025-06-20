@@ -1,3 +1,4 @@
+// client/src/App.js
 import React, { useState } from 'react';
 
 function App() {
@@ -8,12 +9,11 @@ function App() {
     e.preventDefault();
     setResult("Loading...");
 
-    // Determine the backend URL based on the environment
-    const backendUrl = process.env.REACT_APP_BACKEND_URL || ''; // <-- This is the important part
-
     try {
-      // Prepend the backendUrl for production deployments
-      const response = await fetch(`${backendUrl}/download`, { // <-- And this usage
+      // Direct fetch to /download.
+      // Since Flask is serving both frontend and API from the same domain,
+      // this relative path will correctly hit your Flask backend's /download endpoint.
+      const response = await fetch("/download", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ url }),
