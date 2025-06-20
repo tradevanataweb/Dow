@@ -1,11 +1,32 @@
+# render.yaml
 services:
+  # Frontend Service (React)
   - type: web
-    name: downloader-app-react
-    runtime: python
-    repo: https://github.com/tradevanataweb/Dow
-    buildCommand: "cd client && npm install && npm run build && cd ../server && pip install -r requirements.txt"
-    startCommand: "gunicorn server:app"
+    name: url-grabber-frontend  # Descriptive name for the frontend service
+    env: node                   # Specify Node.js runtime for React
+    rootDir: client/            # Set the root directory for this service to 'client/'
+    buildCommand: npm install && npm run build # Build React app
+    startCommand: serve -s build # Serve the static React build files
+                                 # You'll need to add 'serve' as a dependency in client/package.json
+                                 # (e.g., npm install --save-dev serve)
+    envVars:
+      # Pass the backend's public URL to the React frontend
+      - key: REACT_APP_BACKEND_URL
+        value: https://${{ url.url-grabber-backend.domain }} # Dynamically gets backend URL
+    plan: free
+
+  # Backend Service (Flask)
+  - type: web
+    name: url-grabber-backend   # Descriptive name for the backend service
+    env: python                 # Specify Python runtime for Flask
+    rootDir: .                  # <--- CRUCIAL CHANGE: Point to the repository root for the backend
+    buildCommand: pip install -r requirements.txt # Install Python dependencies
+    startCommand: gunicorn server:app # Run Flask app with Gunicorn
+                                    # Ensure 'gunicorn' is in requirements.txt (in root)
+                                    # Ensure 'app' is the Flask instance in 'server.py' (in root)
     envVars:
       - key: PYTHON_VERSION
-        value: 3.11
+        value: 3.11             # Explicitly set Python version
+      - key: FLASK_ENV          # Good practice to set environment to production
+        value: production
     plan: free
