@@ -1,0 +1,39 @@
+# gitignore (Place this file in your project's
+root directory)
+# --- Node js / React Frontend ---
+# Dependencies
+/client/node_modules
+# Build output
+/client/build
+# Environment variables (if you ever add a . env
+file to client/)
+/client/.env*
+# Log files
+/client/npm-debug.10g* /client/yarn-debug. 10g* /client/yarn-error.10g*
+/client/ • pnp/
+• pnp.js
+--- Python / Flask Backend ---
+# Virtual environment
+/venv /. venv
+# Byte-code files
+pycache
+* • pyc
+* pyo
+* pyd
+# Environment variables (if you ever add a . env
+file to root for backend)
+/. env*
+# Database files (if using SQLite)
+*. sqlite3
+*. db
+# Log files
+*. 10g
+# Editor/IDE specific files
+• vscode/
+• idea/
+* sublime-project
+* sublime-workspace
+# --- MacoS specific ---
+• DS_Store
+# --- Windows specific
+Thumbs. db ehthumbs. db
