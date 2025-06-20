@@ -2,7 +2,7 @@ services:
   - type: web
     name: downloader-app-react
     runtime: python
-    repo: https://github.com/YOUR_USERNAME/YOUR_REPO
+    repo: https://github.com/tradevanataweb/Dow
     buildCommand: "cd client && npm install && npm run build && cd ../server && pip install -r requirements.txt"
     startCommand: "gunicorn server:app"
     envVars:
