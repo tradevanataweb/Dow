@@ -13,6 +13,10 @@ def handle_download():
     result = download_content(data["url"])
     return jsonify(result)
 
+@app.route("/status")
+def status():
+    return jsonify({"message": "Backend is running"}), 200
+
 @app.route("/", defaults={"path": ""})
 @app.route("/<path:path>")
 def serve_react(path):
@@ -20,3 +24,6 @@ def serve_react(path):
         return send_from_directory(app.static_folder, path)
     else:
         return send_from_directory(app.static_folder, "index.html")
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=10000, debug=True)
