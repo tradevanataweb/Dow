@@ -1,13 +1,8 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from downloader import download_content
 import os
-import logging
 
-app = Flask(__name__)
-
-# Enable logging to show messages in Render logs
-logging.basicConfig(level=logging.INFO)
-logging.info("✅ Flask backend started and ready to receive requests.")
+app = Flask(__name__, static_folder="../client/build", static_url_path="/")
 
 @app.route("/download", methods=["POST"])
 def handle_download():
@@ -15,18 +10,13 @@ def handle_download():
     if not data or "url" not in data:
         return jsonify({"error": "Missing 'url' in request."}), 400
 
-    logging.info(f"📥 Received download request for URL: {data['url']}")
-    try:
-        result = download_content(data["url"])
-        return jsonify(result)
-    except Exception as e:
-        logging.error(f"❌ Error during download: {e}")
-        return jsonify({"error": str(e)}), 500
+    result = download_content(data["url"])
+    return jsonify(result)
 
-@app.route("/status")
-def status():
-    return jsonify({"message": "✅ Backend is running!"}), 200
-
-# Optional for local testing
-# if __name__ == "__main__":
-#     app.run(debug=True, port=5000)
+@app.route("/", defaults={"path": ""})
+@app.route("/<path:path>")
+def serve_react(path):
+    if path != "" and os.path.exists(app.static_folder + "/" + path):
+        return send_from_directory(app.static_folder, path)
+    else:
+        return send_from_directory(app.static_folder, "index.html")
