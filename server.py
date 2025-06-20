@@ -13,10 +13,12 @@ def handle_download():
     result = download_content(data["url"])
     return jsonify(result)
 
+# ✅ This must go BEFORE the catch-all React route
 @app.route("/status")
 def status():
     return jsonify({"message": "Backend is running"}), 200
 
+# React frontend catch-all (must come last)
 @app.route("/", defaults={"path": ""})
 @app.route("/<path:path>")
 def serve_react(path):
