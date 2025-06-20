@@ -1,12 +1,11 @@
 services:
   - type: web
-    name: downloader-app
-    env: python
-    plan: free
-    buildCommand: |
-      cd client && npm install && npm run build
-      cd ../server && pip install -r requirements.txt
-    startCommand: gunicorn server.server:app
+    name: downloader-app-react
+    runtime: python
+    repo: https://github.com/tradevanataweb/Dow
+    buildCommand: "cd client && npm install && npm run build && cd ../server && pip install -r requirements.txt"
+    startCommand: "gunicorn server:app"
     envVars:
       - key: PYTHON_VERSION
         value: 3.11
+    plan: free
