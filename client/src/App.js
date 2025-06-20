@@ -8,8 +8,12 @@ function App() {
     e.preventDefault();
     setResult("Loading...");
 
+    // Determine the backend URL based on the environment
+    const backendUrl = process.env.REACT_APP_BACKEND_URL || ''; // <-- This is the important part
+
     try {
-      const response = await fetch("/download", {
+      // Prepend the backendUrl for production deployments
+      const response = await fetch(`${backendUrl}/download`, { // <-- And this usage
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ url }),
