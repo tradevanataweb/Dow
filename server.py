@@ -1,5 +1,3 @@
-Will this allow post requests 
-
 from flask import Flask, request, jsonify
 from downloader import download_content
 
