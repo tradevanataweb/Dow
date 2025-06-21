@@ -35,7 +35,26 @@ def download_content(url: str):
     try:
         result = subprocess.run(command, capture_output=True, text=True, check=True)
         logging.info("Download complete.")
-        return {"status": "success", "output": result.stdout}
+
+        # Look for merged file in output
+        for line in result.stdout.splitlines():
+            if "Merging formats into" in line and ".mp4" in line:
+                abs_path = line.split('"')[1]  # Extract file path
+                rel_path = os.path.relpath(abs_path, DOWNLOAD_DIR)
+                logging.info(f"Final video file: {rel_path}")
+                return {
+                    "status": "success",
+                    "output": result.stdout,
+                    "video_filename": rel_path  # return this for frontend use
+                }
+
+        # If merging line not found, fallback
+        return {
+            "status": "success",
+            "output": result.stdout,
+            "video_filename": None  # frontend will handle gracefully
+        }
+
     except subprocess.CalledProcessError as e:
         logging.error(f"Error: {e.stderr}")
         return {"status": "error", "error": e.stderr}
