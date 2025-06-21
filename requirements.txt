@@ -4,3 +4,4 @@ gunicorn
 yt-dlp
 requests
 tqdm
+psutil
