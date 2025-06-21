@@ -1,6 +1,7 @@
 Flask
-Flask-Cors==4. 0.1 gunicorn==22.0.0
-yt-dlp==2024.07.01
-requests==2.32.3
-tgdm==4. 66.4
-psutil==5.9.8
+Flask-Cors
+gunicorn
+yt-dlp
+requests
+tgdm
+psutil
