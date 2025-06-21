@@ -3,5 +3,5 @@ Flask-Cors
 gunicorn
 yt-dlp
 requests
-tgdm
+tqdm
 psutil
