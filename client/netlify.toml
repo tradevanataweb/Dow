@@ -1,8 +1,7 @@
-# netlify.toml
 [build]
   base = "client"
   command = "npm run build"
-  publish = "client/build"
+  publish = "build"
 
 [build.environment]
   NODE_VERSION = "18"
