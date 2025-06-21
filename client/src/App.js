@@ -1,6 +1,9 @@
 // client/src/App.js
 import React, { useState } from 'react';
 
+// Use environment variable or fallback to local
+const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
+
 function App() {
   const [url, setUrl] = useState("");
   const [result, setResult] = useState(null);
@@ -10,10 +13,7 @@ function App() {
     setResult("Loading...");
 
     try {
-      // Direct fetch to /download.
-      // Since Flask is serving both frontend and API from the same domain,
-      // this relative path will correctly hit your Flask backend's /download endpoint.
-      const response = await fetch("/download", {
+      const response = await fetch(`${API_URL}/download`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ url }),
